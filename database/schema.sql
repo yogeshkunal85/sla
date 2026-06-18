@@ -55,3 +55,13 @@ CREATE TABLE `sla_events` (
         FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+-- Add missing columns
+ALTER TABLE `sla_events`
+  ADD COLUMN `priority` ENUM('low', 'medium', 'high', 'urgent') NOT NULL AFTER `event_type`,
+  ADD COLUMN `consumed_percentage` DECIMAL(5,2) NOT NULL DEFAULT 0 AFTER `priority`;
+
+-- Fix enum changed from 'breached' to 'breach'
+ALTER TABLE `sla_events`
+  MODIFY COLUMN `event_type` ENUM('warning', 'breach', 'escalated') NOT NULL;
+
