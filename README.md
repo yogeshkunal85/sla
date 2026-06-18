@@ -1,4 +1,21 @@
-# Support Ticket & SLA Tracking System (Frontend)
+
+# Support Ticket & SLA Tracking System 
+ Clone the repository
+ 
+Quick start (clean clone)
+ 
+1. Database
+Create the database and load schema + seed data:
+
+# Create database
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS sla CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+# Apply schema and seed (run from repo root)
+mysql -u root -p sla < database/schema.sql
+mysql -u root -p sla < database/seed.sql
+
+
+(Frontend)
 
 A  frontend for a Support Ticketing system with SLA tracking
 
@@ -60,11 +77,10 @@ main.tsx
 
 ## Getting Started
 
-### 1. Clone the repository
+###
 
 
-git clone https://github.com/your-username/support-ticket-ui.git
-cd support-ticket-ui
+cd client
 npm install
 
 Create a .env.local file:
@@ -73,14 +89,14 @@ VITE_API_BASE_URL=http://localhost:3000
 
 For production:
 
-VITE_API_BASE_URL=https://your-backend-url.com
+VITE_API_BASE_URL=http://localhost:3000
 
 npm run dev
 
 http://localhost:3001
 
 
-# Support Ticket & SLA Tracking System API
+# Backend
 
 A production-ready REST API for managing support tickets with automated SLA tracking and priority escalation.
 
@@ -116,7 +132,7 @@ A production-ready REST API for managing support tickets with automated SLA trac
 
 ## Getting Started
 
-1. Clone the repository
+1. cd server
 2. Copy `.env.example` to `.env` and update with your database credentials
 3. Run `npm install`
 4. Run the schema.sql file to create the database and tables
