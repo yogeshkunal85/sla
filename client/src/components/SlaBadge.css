@@ -1,0 +1,39 @@
+.sla-badge-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+  }
+  
+  .sla-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+  
+  .sla-ok {
+    background: #d1fae5;
+    color: #065f46;
+  }
+  
+  .sla-at_risk {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  .sla-breached {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  
+  .sla-resolved {
+    background: #e5e7eb;
+    color: #374151;
+  }
+  
+  .sla-time {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
