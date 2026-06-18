@@ -35,8 +35,7 @@ const getDashboardStats = async () => {
             COUNT(t.id) as assigned_tickets,
             SUM(CASE WHEN t.status IN ('resolved', 'closed') THEN 1 ELSE 0 END) as resolved_tickets
         FROM agents a
-        LEFT JOIN tickets t ON a.id = t.agent_id
-        WHERE a.is_active = true
+        LEFT JOIN tickets t ON a.id = t.assigned_agent_id
         GROUP BY a.id, a.name
     `);
 
@@ -49,11 +48,11 @@ const getDashboardStats = async () => {
 };
 
 const getRecentActivities = async (limit = 10) => {
-    const [activities] = await pool.execute(`
+    const [activities] = await pool.query(`
         (SELECT 
             'ticket_created' as type,
             t.id as ticket_id,
-            t.title,
+            t.subject,
             t.created_at as timestamp,
             t.customer_email as actor
         FROM tickets t)
@@ -66,8 +65,8 @@ const getRecentActivities = async (limit = 10) => {
             CONCAT('User ', tc.author_type) as actor
         FROM ticket_comments tc)
         ORDER BY timestamp DESC
-        LIMIT ?
-    `, [limit]);
+        LIMIT ${limit}
+    `);
 
     return activities;
 };

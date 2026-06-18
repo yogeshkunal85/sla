@@ -32,10 +32,11 @@ const listTickets = asyncHandler(async (req, res) => {
         const filters = {
             status: req.query.status,
             priority: req.query.priority,
-            agent_id: req.query.agent_id,
+            assigned_agent_id: req.query.agent_id,
             customer_email: req.query.customer_email
         };
 
+        
         const result = await ticketService.listTickets(filters, limit, offset);
         res.json({
             success: true,

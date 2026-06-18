@@ -73,3 +73,11 @@ CREATE INDEX idx_comment_ticket
 
 CREATE INDEX idx_sla_event_ticket
     ON sla_events(ticket_id);
+
+
+ALTER TABLE ticket_comments
+CHANGE COLUMN message comment TEXT NOT NULL;
+    ALTER TABLE ticket_comments
+ADD COLUMN author_type ENUM('agent','customer') NOT NULL,
+ADD COLUMN author_id INT  NULL;
+

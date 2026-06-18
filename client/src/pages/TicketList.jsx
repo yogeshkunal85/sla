@@ -33,9 +33,26 @@ export function TicketList() {
     navigate(`/tickets/${ticket.id}`);
   };
 
+  const handleClearFilters = () => {
+    updateFilters({
+        status: '',
+        priority: ''
+      });
+    setFilters({
+        status: '',
+        priority: ''
+      });
+      setSearchTerm('')
+  };
+
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     updateFilters({ [name]: value || undefined });
+    setFilters((prev) => ({
+        ...prev,
+        [name]: value || undefined
+      }));
   };
 
   const handleSearchChange = (e) => {
@@ -98,6 +115,12 @@ export function TicketList() {
             <option value="low">Low</option>
           </select>
         </div>
+        <button
+          onClick={handleClearFilters}
+          className="button-primary"
+        >
+          Clear
+        </button>
       </div>
 
       {loading && <LoadingSpinner />}

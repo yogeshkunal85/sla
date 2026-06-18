@@ -4,14 +4,14 @@ const { PRIORITY_ESCALATION } = require('../constants/sla');
 const createTicket = async (ticketData) => {
     const { title, description, priority, customer_email } = ticketData;
     const [result] = await pool.execute(
-        'INSERT INTO tickets (title, description, priority, customer_email) VALUES (?, ?, ?, ?)',
+        'INSERT INTO tickets (subject, description, priority, customer_email) VALUES (?, ?, ?, ?)',
         [title, description, priority, customer_email]
     );
     return result.insertId;
 };
 
 const listTickets = async (filters, limit, offset) => {
-    let sql = 'SELECT t.*, a.name as agent_name FROM tickets t LEFT JOIN agents a ON t.agent_id = a.id';
+    let sql = 'SELECT t.*, a.name as agent_name FROM tickets t LEFT JOIN agents a ON t.assigned_agent_id = a.id';
     const params = [];
     const conditions = [];
 
@@ -23,9 +23,9 @@ const listTickets = async (filters, limit, offset) => {
         conditions.push('t.priority = ?');
         params.push(filters.priority);
     }
-    if (filters.agent_id) {
-        conditions.push('t.agent_id = ?');
-        params.push(filters.agent_id);
+    if (filters.assigned_agent_id) {
+        conditions.push('t.assigned_agent_id = ?');
+        params.push(filters.assigned_agent_id);
     }
     if (filters.customer_email) {
         conditions.push('t.customer_email = ?');
@@ -36,15 +36,29 @@ const listTickets = async (filters, limit, offset) => {
         sql += ' WHERE ' + conditions.join(' AND ');
     }
 
-    sql += ' ORDER BY t.created_at DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
+    sql += ` ORDER BY t.created_at DESC LIMIT ${limit} OFFSET ${offset}`;
 
+   
+    // params.push(limit, offset);
+
+
+    console.log(sql);
+console.log(params);
+console.log(typeof limit, limit);
+console.log(typeof offset, offset);
     const [tickets] = await pool.execute(sql, params);
+    const countSql =
+    `SELECT COUNT(*) as total FROM tickets t
+     ${conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''}`;
 
-    const [countResult] = await pool.execute(
-        `SELECT COUNT(*) as total FROM tickets t ${conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''}`,
-        params.slice(0, -2)
-    );
+const countParams = [];
+
+if (filters.status) countParams.push(filters.status);
+if (filters.priority) countParams.push(filters.priority);
+if (filters.assigned_agent_id) countParams.push(filters.assigned_agent_id);
+if (filters.customer_email) countParams.push(filters.customer_email);
+
+const [countResult] = await pool.execute(countSql, countParams);
 
     return {
         tickets,
@@ -57,7 +71,7 @@ const getTicketById = async (id) => {
     const [tickets] = await pool.execute(
         `SELECT t.*, a.name as agent_name 
          FROM tickets t 
-         LEFT JOIN agents a ON t.agent_id = a.id 
+         LEFT JOIN agents a ON t.assigned_agent_id = a.id 
          WHERE t.id = ?`,
         [id]
     );
@@ -80,21 +94,22 @@ const updateTicketStatus = async (id, status) => {
 
 const assignAgent = async (ticketId, agentId) => {
     const [agent] = await pool.execute(
-        'SELECT id FROM agents WHERE id = ? AND is_active = true',
+        'SELECT id FROM agents WHERE id = ?',
         [agentId]
     );
     if (!agent.length) {
-        throw new Error('Agent not found or inactive');
+        throw new Error('Agent not found');
     }
 
     await pool.execute(
-        'UPDATE tickets SET agent_id = ? WHERE id = ?',
+        'UPDATE tickets SET assigned_agent_id = ? WHERE id = ?',
         [agentId, ticketId]
     );
 };
 
 const addComment = async (ticketId, commentData) => {
     const { comment, author_type, author_id } = commentData;
+    console.log(commentData)
     const [result] = await pool.execute(
         'INSERT INTO ticket_comments (ticket_id, comment, author_type, author_id) VALUES (?, ?, ?, ?)',
         [ticketId, comment, author_type, author_id || null]
