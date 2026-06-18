@@ -1,0 +1,58 @@
+.ticket-list-page {
+    padding: 1rem;
+  }
+  
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .page-header h1 {
+    margin: 0;
+    color: #1f2937;
+  }
+  
+  .ticket-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .filter-group {
+    flex: 1;
+    min-width: 150px;
+  }
+  
+  .search-input,
+  .filter-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 0.95rem;
+  }
+  
+
+  
+  .ticket-count {
+    margin-bottom: 1rem;
+    color: #6b7280;
+    font-size: 0.95rem;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .empty-state p {
+    margin-bottom: 1.5rem;
+    color: #6b7280;
+    font-size: 1.1rem;
+  }

@@ -3,7 +3,7 @@ import { useDashboard } from '../hooks/useDashboard';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { DashboardSummary } from '../components/DashboardSummary';
-// import './Dashboard.css';
+import './Dashboard.css';
 
 export function Dashboard() {
   const { stats, activities, loading, error, refresh } = useDashboard();

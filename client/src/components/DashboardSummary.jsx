@@ -1,5 +1,6 @@
 import React from 'react';
-// import './DashboardSummary.css';
+import '../pages/Dashboard.css';
+
 
 export function DashboardSummary({ stats }) {
   const { ticketStats, priorityDistribution, slaBreaches } = stats;
@@ -48,33 +49,7 @@ export function DashboardSummary({ stats }) {
         </div>
       </div>
 
-      <div className="priority-distribution">
-        <h4>Priority Distribution</h4>
-        <div className="priority-bars">
-          {priorityDistribution.map((item) => (
-            <div key={item.priority} className="priority-bar-item">
-              <div className="priority-bar-label">
-                <span style={{ color: getPriorityColor(item.priority) }}>
-                  {item.priority.charAt(0).toUpperCase() + item.priority.slice(1)}
-                </span>
-                <span>{item.count}</span>
-              </div>
-              <div className="priority-bar-track">
-                <div
-                  className="priority-bar-fill"
-                  style={{
-                    width: `${(item.count / ticketStats.total_tickets) * 100}%`,
-                    backgroundColor: getPriorityColor(item.priority)
-                  }}
-                />
-              </div>
-              <div className="priority-avg-resolution">
-                Avg Resolution: {item?.avg_resolution_hours}h
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      
     </div>
   );
 }

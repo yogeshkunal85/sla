@@ -42,6 +42,7 @@ export function TicketTable({ tickets, onRowClick }) {
             <th>SLA</th>
             <th>Agent</th>
             <th>Created</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -59,6 +60,12 @@ export function TicketTable({ tickets, onRowClick }) {
               <td><SlaBadge ticket={ticket} /></td>
               <td>{ticket.agent_name || 'Unassigned'}</td>
               <td>{formatDate(ticket.created_at)}</td>
+              <td> <button
+                  onClick={() => onRowClick(ticket)}
+                className="button-primary"
+              >
+            View
+              </button></td>
             </tr>
           ))}
         </tbody>

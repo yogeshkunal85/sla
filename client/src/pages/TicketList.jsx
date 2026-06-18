@@ -5,7 +5,7 @@ import { TicketTable } from '../components/TicketTable';
 import { Pagination } from '../components/Pagination';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
-// import './TicketList.css';
+import './TicketList.css';
 
 export function TicketList() {
   const navigate = useNavigate();
