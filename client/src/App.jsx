@@ -1,5 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Dashboard } from './pages/Dashboard';
+import { TicketList } from './pages/TicketList';
+import { TicketDetail } from './pages/TicketDetail';
+import { CreateTicket } from './pages/CreateTicket';
 import './App.css';
 
 function App() {
@@ -16,6 +20,14 @@ function App() {
           </div>
         </nav>
 
+        <main className="app-main">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/tickets" element={<TicketList />} />
+            <Route path="/tickets/new" element={<CreateTicket />} />
+            <Route path="/tickets/:id" element={<TicketDetail />} />
+          </Routes>
+        </main>
       </div>
     </BrowserRouter>
   );
